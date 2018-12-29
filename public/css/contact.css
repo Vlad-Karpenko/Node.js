@@ -9,8 +9,16 @@
 }
 
 .form-control {
-    width: auto;
+    width: 300px;
     display: inline-block;
+}
+
+.form-control__error {
+    border: 2px solid red;
+}
+
+.form-control__success {
+    border: 2px solid greenyellow;
 }
 
 .btn-primary {
