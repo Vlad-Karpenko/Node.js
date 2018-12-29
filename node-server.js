@@ -6,7 +6,6 @@ const server = http.createServer(function (req, res) {
         fs.readFile('./public/catalog.html', function (err, data) {
             res.writeHead(200, {'Content-Type': 'text/html'});
             res.write(data);
-            console.log(req);
             res.end();
         });
     } else if (req.url === '/some') {
