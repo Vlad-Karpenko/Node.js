@@ -1,9 +1,10 @@
-const express = require('express');
+﻿const express = require('express');
 const app = express();
 const path = require('path');
 const bodyParser = require('body-parser');
 const urlencodedParser = bodyParser.urlencoded({extended: false});
 const nodemailer = require('nodemailer');
+const mongoDB = require('./mongoDB');
 
 app.use('/css', express.static("./public/css"));
 app.use('/js', express.static("./public/js"));
@@ -17,12 +18,22 @@ app.post('/contact', urlencodedParser, function (req, res) {
         if (typeof req.body.checkbox == 'undefined') {
             req.body.checkbox = 'off'
         }
+        const contactData = {
+            name: req.body.name,
+            surname: req.body.surname,
+            phone: req.body.phone,
+            email: req.body.email,
+            password: req.body.password,
+            checkbox: req.body.checkbox
+        };
         const message = (`Имя - ${req.body.name}<br>
                   Фамилия - ${req.body.surname}<br>
                   Телефон - ${req.body.phone}<br>
                   E-mail - ${req.body.email}<br>
                   Пароль - ${req.body.password}<br> 
                   Условия - ${req.body.checkbox}`);
+
+        mongoDB.mongo(contactData);
 
         let transporter = nodemailer.createTransport({
             service: 'gmail',
