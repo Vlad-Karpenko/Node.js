@@ -33,7 +33,7 @@ app.post('/contact', urlencodedParser, function (req, res) {
                   Пароль - ${req.body.password}<br> 
                   Условия - ${req.body.checkbox}`);
 
-        mongoDB.mongo(contactData);
+        mongoDB.insert(contactData);
 
         let transporter = nodemailer.createTransport({
             service: 'gmail',
@@ -63,6 +63,7 @@ app.post('/contact', urlencodedParser, function (req, res) {
             console.log('Message sent: %s', info.messageId);
             res.sendFile(path.join(__dirname, './public', 'catalog.html'));
         });
+        res.sendFile(path.join(__dirname, './public', 'index.html'));
     }
 });
 
