@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const urlencodedParser = bodyParser.urlencoded({extended: false});
 const nodemailer = require('nodemailer');
 const mongoDB = require('./mongoDB');
+const mySql = require('./mysql');
 
 app.use('/css', express.static("./public/css"));
 app.use('/js', express.static("./public/js"));
@@ -34,6 +35,7 @@ app.post('/contact', urlencodedParser, function (req, res) {
                   Условия - ${req.body.checkbox}`);
 
         mongoDB.insert(contactData);
+        mySql.insert(contactData);
 
         let transporter = nodemailer.createTransport({
             service: 'gmail',
@@ -55,7 +57,7 @@ app.post('/contact', urlencodedParser, function (req, res) {
             html: message
         };
 
-// send mail with defined transport object
+        // send mail with defined transport object
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
                 return console.log(error);
